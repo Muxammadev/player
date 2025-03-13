@@ -1,65 +1,78 @@
 <!DOCTYPE html>
-<html lang="uz">
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-    <meta name="format-detection" content="telephone=no"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="robots" content="noindex,nofollow"/>
-    <title>Kino Bot</title>
-    <!-- PlayerJS skripti -->
-    <script src="./script.js" type="text/javascript"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram Web App with PlayerJS</title>
     <style>
         body {
             margin: 0;
             padding: 0;
-            background-color: #000;
-            overflow: hidden;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
+            justify-content: center;
+            height: 100vh;
         }
         #player {
             width: 100%;
-            height: 100vh;
-            background-color: #333;
+            max-width: 640px;
+            height: auto;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #0088cc;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #006b9f;
         }
     </style>
 </head>
 <body>
     <div id="player"></div>
+    <button id="fullscreenBtn">To'liq ekran</button>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="script.js"></script>
 
-    <script src="https://telegram.org/js/telegram-web-app.js?1"></script>
     <script>
-        if (window.Telegram?.WebApp) {
-            Telegram.WebApp.ready();
-            Telegram.WebApp.expand();
-            Telegram.WebApp.requestFullscreen();
-        }
+        const tg = window.Telegram.WebApp;
+        tg.ready();
 
-        const urlParams = new URLSearchParams(window.location.search);
-        const videoUrl = urlParams.get('url') || 'https://www.w3schools.com/html/mov_bbb.mp4'; // Test URL
+        const player = new Playerjs({
+            id: "player",
+            file: "https://test.plrjs.com/sample.mp4", 
+        });
 
-        console.log("Video URL:", videoUrl);
-        console.log("Playerjs mavjudmi?", typeof Playerjs !== 'undefined');
-        console.log("Sahifa yuklandi");
-
-        try {
-            if (typeof Playerjs === 'function') {
-                const player = new Playerjs({
-                    id: "player",
-                    file: videoUrl,
-                    autoplay: 1
-                });
-                console.log("Player muvaffaqiyatli ishga tushdi:", player);
+        const fullscreenBtn = document.getElementById("fullscreenBtn");
+        fullscreenBtn.addEventListener("click", function() {
+            if (!tg.isFullscreen) {
+                tg.requestFullscreen();
+                fullscreenBtn.textContent = "To'liq ekrandan chiqish";
             } else {
-                console.error("Playerjs obyekti aniqlanmadi! playerjs.js yuklanmagan yoki noto‘g‘ri.");
-                document.getElementById('player').innerHTML = "<p style='color:white;'>Player yuklanmadi, xatolikni tekshiring!</p>";
+                tg.exitFullscreen();
+                fullscreenBtn.textContent = "To'liq ekran";
             }
-        } catch (error) {
-            console.error("Player yuklashda xato:", error);
-            document.getElementById('player').innerHTML = "<p style='color:white;'>Xato: " + error.message + "</p>";
-        }
+        });
+
+        // Fullscreen holatini yangilash
+        tg.onEvent("fullscreenChanged", function() {
+            if (tg.isFullscreen) {
+                fullscreenBtn.textContent = "To'liq ekrandan chiqish";
+            } else {
+                fullscreenBtn.textContent = "To'liq ekran";
+            }
+        });
+
+        // Web App-ni kengaytirish (Telegram ichida maksimal joy egallash uchun)
+        tg.expand();
     </script>
 </body>
 </html>
