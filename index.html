@@ -40,15 +40,20 @@
 
         // Debug uchun konsolga yozish
         console.log("Video URL:", videoUrl);
+        console.log("Playerjs mavjudmi?", typeof Playerjs !== 'undefined');
 
         // PlayerJS-ni ishga tushirish
         try {
-            const player = new Playerjs({
-                id: "player",           // Div ID-si
-                file: videoUrl,         // Dinamik video URL
-                autoplay: 1             // Avtomatik ijro (1 = ha, 0 = yo‘q)
-            });
-            console.log("Player muvaffaqiyatli ishga tushdi:", player);
+            if (typeof Playerjs === 'function') {
+                const player = new Playerjs({
+                    id: "player",           // Div ID-si
+                    file: videoUrl,         // Dinamik video URL
+                    autoplay: 1             // Avtomatik ijro
+                });
+                console.log("Player muvaffaqiyatli ishga tushdi:", player);
+            } else {
+                console.error("Playerjs obyekti aniqlanmadi!");
+            }
         } catch (error) {
             console.error("Player yuklashda xato:", error);
         }
