@@ -2,10 +2,10 @@
 <html lang="uz">
 <head>
     <meta charset="utf-8">
-<!--     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
     <meta name="format-detection" content="telephone=no"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="robots" content="noindex,nofollow"/> -->
+    <meta name="robots" content="noindex,nofollow"/>
     <title>Kino Bot</title>
     <!-- PlayerJS skripti -->
     <script src="./script.js" type="text/javascript"></script>
@@ -22,7 +22,7 @@
         #player {
             width: 100%;
             height: 100vh;
-            background-color: #333; /* Xatolik bo‘lsa, fon ko‘rinadi */
+            background-color: #333;
         }
     </style>
 </head>
@@ -31,23 +31,19 @@
 
     <script src="https://telegram.org/js/telegram-web-app.js?1"></script>
     <script>
-        // Telegram WebApp sozlamalari
         if (window.Telegram?.WebApp) {
             Telegram.WebApp.ready();
             Telegram.WebApp.expand();
             Telegram.WebApp.requestFullscreen();
         }
 
-        // Dinamik URL olish
         const urlParams = new URLSearchParams(window.location.search);
         const videoUrl = urlParams.get('url') || 'https://www.w3schools.com/html/mov_bbb.mp4'; // Test URL
 
-        // Debug uchun konsolga yozish
         console.log("Video URL:", videoUrl);
         console.log("Playerjs mavjudmi?", typeof Playerjs !== 'undefined');
         console.log("Sahifa yuklandi");
 
-        // PlayerJS-ni ishga tushirish
         try {
             if (typeof Playerjs === 'function') {
                 const player = new Playerjs({
