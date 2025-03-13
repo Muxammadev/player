@@ -15,10 +15,14 @@
             padding: 0;
             background-color: #000;
             overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         #player {
             width: 100%;
             height: 100vh;
+            background-color: #333; /* Xatolik bo‘lsa, fon ko‘rinadi */
         }
     </style>
 </head>
@@ -41,21 +45,24 @@
         // Debug uchun konsolga yozish
         console.log("Video URL:", videoUrl);
         console.log("Playerjs mavjudmi?", typeof Playerjs !== 'undefined');
+        console.log("Sahifa yuklandi");
 
         // PlayerJS-ni ishga tushirish
         try {
             if (typeof Playerjs === 'function') {
                 const player = new Playerjs({
-                    id: "player",           // Div ID-si
-                    file: videoUrl,         // Dinamik video URL
-                    autoplay: 1             // Avtomatik ijro
+                    id: "player",
+                    file: videoUrl,
+                    autoplay: 1
                 });
                 console.log("Player muvaffaqiyatli ishga tushdi:", player);
             } else {
-                console.error("Playerjs obyekti aniqlanmadi!");
+                console.error("Playerjs obyekti aniqlanmadi! playerjs.js yuklanmagan yoki noto‘g‘ri.");
+                document.getElementById('player').innerHTML = "<p style='color:white;'>Player yuklanmadi, xatolikni tekshiring!</p>";
             }
         } catch (error) {
             console.error("Player yuklashda xato:", error);
+            document.getElementById('player').innerHTML = "<p style='color:white;'>Xato: " + error.message + "</p>";
         }
     </script>
 </body>
