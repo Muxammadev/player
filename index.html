@@ -38,8 +38,8 @@
 
         if (window.Telegram && window.Telegram.WebApp) {
             window.Telegram.WebApp.ready();
+            window.Telegram.WebApp.requestWriteAccess();
             window.Telegram.WebApp.requestFullscreen();
-            window.Telegram.WebApp.expand();
         }
     </script>
 </body>
