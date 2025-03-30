@@ -3,76 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Telegram Web App with PlayerJS</title>
+    <title>Video Player</title>
     <style>
-        body {
+        body, html {
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
+            height: 100%;
+            overflow: hidden;
         }
         #player {
             width: 100%;
-            max-width: 640px;
-            height: auto;
-        }
-        button {
-            margin-top: 20px;
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #0088cc;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #006b9f;
+            height: 100%;
         }
     </style>
 </head>
 <body>
     <div id="player"></div>
-    <button id="fullscreenBtn">To'liq ekran</button>
+
+    <script src="./player.js"></script>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <script src="script.js"></script>
-
     <script>
-        const tg = window.Telegram.WebApp;
-        tg.ready();
-
+        const urlParams = new URLSearchParams(window.location.search);
+        const videoUrl = urlParams.get('movie') || 'https://ia600807.us.archive.org/29/items/uzblix/intro%20x1.ia.mp4';
         const player = new Playerjs({
             id: "player",
-            file: "https://test.plrjs.com/sample.mp4", 
+            file: videoUrl
         });
 
-        const fullscreenBtn = document.getElementById("fullscreenBtn");
-        fullscreenBtn.addEventListener("click", function() {
-            if (!tg.isFullscreen) {
-                tg.requestFullscreen();
-                fullscreenBtn.textContent = "To'liq ekrandan chiqish";
-            } else {
-                tg.exitFullscreen();
-                fullscreenBtn.textContent = "To'liq ekran";
+        document.addEventListener("DOMContentLoaded", function() {
+            if (document.documentElement.requestFullscreen) {
+                document.documentElement.requestFullscreen();
             }
         });
 
-        // Fullscreen holatini yangilash
-        tg.onEvent("fullscreenChanged", function() {
-            if (tg.isFullscreen) {
-                fullscreenBtn.textContent = "To'liq ekrandan chiqish";
-            } else {
-                fullscreenBtn.textContent = "To'liq ekran";
-            }
-        });
-
-        // Web App-ni kengaytirish (Telegram ichida maksimal joy egallash uchun)
-        tg.expand();
+        if (window.Telegram && window.Telegram.WebApp) {
+            window.Telegram.WebApp.ready();
+            window.Telegram.WebApp.expand();
+        }
     </script>
 </body>
 </html>
