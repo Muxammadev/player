@@ -1,38 +1,59 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PlayerJS Fullscreen Video</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PlayerJS Fullscreen Responsive</title>
   <style>
     html, body {
       margin: 0;
       padding: 0;
-      background: black;
       height: 100%;
-      overflow: hidden;
+      background-color: black;
     }
-    #player {
+
+    #player-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
       width: 100vw;
       height: 100vh;
+      z-index: 9999;
+      overflow: hidden;
+    }
+
+    #player {
+      width: 100%;
+      height: 100%;
     }
   </style>
 </head>
 <body>
-  <div id="player"></div>
+  <div id="player-container">
+    <div id="player"></div>
+  </div>
+
   <script src="https://muxammadev.github.io/player-js/script.js"></script>
+
   <script>
     function GetFile() {
       const raw = window.location.pathname.substring(1);
       return decodeURIComponent(raw);
     }
-    var player = new Playerjs({
-      id: "player",
-      file: "js:GetFile()"
-    });
-    player.api("play");
-    player.api("fullscreen");
-  </script>
 
+    window.addEventListener("DOMContentLoaded", function () {
+      if (typeof Playerjs !== "undefined") {
+        new Playerjs({
+          id: "player",
+          file: GetFile(),
+          autoplay: 1
+        });
+      } else {
+        console.error("Playerjs is not defined. Library may have failed to load.");
+      }
+    });
+  </script>
 </body>
 </html>
