@@ -3,10 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>UZBLIX VIDEO PLAYER</title>
-
-  <script src="https://muxammadev.github.io/player-js/script.js"></script>
-
+  <title>PlayerJS Fullscreen Video</title>
   <style>
     html, body {
       margin: 0;
@@ -15,47 +12,26 @@
       height: 100%;
       overflow: hidden;
     }
-
-    video {
+    #player {
       width: 100vw;
       height: 100vh;
-      object-fit: contain;
-      background: black;
     }
   </style>
 </head>
 <body>
-
-  <video id="player" class="video-js vjs-default-skin" controls preload="auto"></video>
-
+  <div id="player"></div>
+  <script src="https://cdn.jsdelivr.net/npm/playerjs@1/player.min.js"></script>
   <script>
-    (function () {
-      const rawPath = window.location.pathname.substring(1); // "/https://..." -> "https://..."
-      const videoUrl = decodeURIComponent(rawPath);
-      console.log("Video URL:", videoUrl);
-
-      const getMimeType = (url) => {
-        if (url.endsWith('.m3u8')) return 'application/x-mpegURL';
-        if (url.endsWith('.mp4')) return 'video/mp4';
-        if (url.endsWith('.webm')) return 'video/webm';
-        if (url.endsWith('.mov')) return 'video/quicktime';
-        return 'video/mp4'; // default
-      };
-
-      const player = videojs('player');
-
-      player.src({
-        src: videoUrl,
-        type: getMimeType(videoUrl)
-      });
-
-      player.ready(() => {
-        player.play();
-        if (player.requestFullscreen) {
-          player.requestFullscreen();
-        }
-      });
-    })();
+    function GetFile() {
+      const raw = window.location.pathname.substring(1);
+      return decodeURIComponent(raw);
+    }
+    var player = new Playerjs({
+      id: "player",
+      file: "js:GetFile()"
+    });
+    player.api("play");
+    player.api("fullscreen");
   </script>
 
 </body>
