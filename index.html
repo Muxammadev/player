@@ -3,40 +3,44 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Fullscreen Player</title>
-  <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
+  <title>Fullscreen Video Player</title>
+  <script src="https://muxammadev.github.io/player-js/script.js"></script>
   <style>
     body, html {
       margin: 0;
       padding: 0;
-      background: black;
+      background-color: black;
       height: 100%;
       overflow: hidden;
     }
-    #player {
+
+    video {
       width: 100vw;
       height: 100vh;
+      object-fit: contain;
+      background: black;
     }
   </style>
 </head>
 <body>
-  <video-js id="player" class="vjs-default-skin" controls preload="auto"></video-js>
-  <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
-  <script src="https://muxammadev.github.io/player-js/script.js"></script>
+  <video id="player" class="video-js vjs-default-skin" controls autoplay preload="auto"></video>
   <script>
-    (function() {
+    (function () {
       const rawPath = window.location.pathname.substring(1);
       const videoUrl = decodeURIComponent(rawPath);
       const player = videojs('player');
       player.src({
         src: videoUrl,
-        type: 'video/mp4'
+        type: videoUrl.endsWith('.m3u8') ? 'application/x-mpegURL' : 'video/mp4'
       });
       player.ready(() => {
         player.play();
-        player.requestFullscreen();
+        if (player.requestFullscreen) {
+          player.requestFullscreen();
+        }
       });
     })();
   </script>
+
 </body>
 </html>
