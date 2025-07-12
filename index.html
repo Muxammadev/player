@@ -3,52 +3,42 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PlayerJS Fullscreen Responsive</title>
+  <title>Video Player</title>
   <style>
-    html, body {
+    body {
       margin: 0;
-      height: 100%;
-      overflow: hidden;
-      background: #000;
-      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-      color: #fff;
-    }
-
-    ::-webkit-scrollbar {
-      position: absolute;
-      width: 5px;
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: #888;
-      border-radius: 3px;
-    }
-
-    ::-webkit-scrollbar-track {
-      background: rgba(255, 255, 255, 0);
-    }
-
-    #player-container {
-      width: 100vw;
+      padding: 0;
+      background-color: #0a0a0a;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       height: 100vh;
+      font-family: sans-serif;
     }
 
-    #player iframe,
+    /* Player konteyneri */
     #player {
-      width: 100% !important;
-      height: 100% !important;
-      border: none;
-      display: block;
+      width: 90vw;
+      max-width: 900px;
+      aspect-ratio: 16 / 9;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+    }
+
+    @media (max-width: 600px) {
+      #player {
+        width: 100vw;
+        border-radius: 0;
+      }
     }
   </style>
 </head>
 <body>
-  <div id="player-container">
-    <div id="player"></div>
-  </div>
+  <div id="player"></div>
 
   <!-- PlayerJS kutubxonasi -->
-  <script src="https://muxammadev.github.io/player-js/script.js"></script>
+  <script src="https://muxammadev.github.io/player-js/main.js"></script>
 
   <script>
     function GetFile() {
