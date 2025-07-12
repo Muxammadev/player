@@ -35,19 +35,22 @@
 <body>
   <div id="player"></div>
 
-  <!-- PlayerJS kutubxonasi -->
   <script src="https://muxammadev.github.io/player-js/main.js"></script>
 
   <script>
     function GetFile() {
-      // "/https://archive.org/..." -> "https://archive.org/..."
-      const raw = window.location.pathname.substring(1);
-      return decodeURIComponent(raw);
+      const params = new URLSearchParams(window.location.search);
+      return decodeURIComponent(params.get("file") || "");
     }
 
     window.addEventListener("DOMContentLoaded", function () {
       const fileUrl = GetFile();
-      console.log("Loaded video URL:", fileUrl); // tekshirish uchun
+      console.log("File URL:", fileUrl);
+
+      if (!fileUrl) {
+        document.body.innerHTML = "<p style='color:white;text-align:center'>Video havola topilmadi. URL da ?file=... qo‘shing.</p>";
+        return;
+      }
 
       if (typeof Playerjs !== "undefined") {
         new Playerjs({
@@ -56,7 +59,7 @@
           autoplay: 1
         });
       } else {
-        console.error("Playerjs is not defined. Library may have failed to load.");
+        console.error("Playerjs is not defined.");
       }
     });
   </script>
