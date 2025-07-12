@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fullscreen Player</title>
+  <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      background: black;
+      height: 100%;
+      overflow: hidden;
+    }
+    #player {
+      width: 100vw;
+      height: 100vh;
+    }
+  </style>
+</head>
+<body>
+  <video-js id="player" class="vjs-default-skin" controls preload="auto"></video-js>
+  <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
+  <script src="https://muxammadev.github.io/player-js/script.js"></script>
+  <script>
+    (function() {
+      const rawPath = window.location.pathname.substring(1);
+      const videoUrl = decodeURIComponent(rawPath);
+      const player = videojs('player');
+      player.src({
+        src: videoUrl,
+        type: 'video/mp4'
+      });
+      player.ready(() => {
+        player.play();
+        player.requestFullscreen();
+      });
+    })();
+  </script>
+</body>
+</html>
