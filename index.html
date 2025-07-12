@@ -13,10 +13,8 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
-      font-family: sans-serif;
     }
 
-    /* Player konteyneri */
     #player {
       width: 90vw;
       max-width: 900px;
@@ -42,15 +40,19 @@
 
   <script>
     function GetFile() {
+      // "/https://archive.org/..." -> "https://archive.org/..."
       const raw = window.location.pathname.substring(1);
       return decodeURIComponent(raw);
     }
 
     window.addEventListener("DOMContentLoaded", function () {
+      const fileUrl = GetFile();
+      console.log("Loaded video URL:", fileUrl); // tekshirish uchun
+
       if (typeof Playerjs !== "undefined") {
         new Playerjs({
           id: "player",
-          file: GetFile(),
+          file: fileUrl,
           autoplay: 1
         });
       } else {
